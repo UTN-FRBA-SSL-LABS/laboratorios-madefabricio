@@ -29,7 +29,7 @@ input:
   ;
 
 linea:
-    exp '\n'   { /* TODO 5 — Imprimir el resultado: printf("= %d\n", $1); */ }
+    exp '\n'  {printf("= %d\n", $1)} { /* TODO 5 — Imprimir el resultado: printf("= %d\n", $1); */ }
   ;
 
 exp:
@@ -46,7 +46,7 @@ term:
 
 factor:
     NUM             { $$ = $1; }
-  | '(' exp ')'    { $$ = $2; /* TODO 4 — Reemplazar 0 por la expresión correcta */ }
+  | '(' exp ')'     { $$ = $2; /* TODO 4 — Reemplazar 0 por la expresión correcta */ }
   ;
 
 %%
