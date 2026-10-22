@@ -277,7 +277,7 @@ Los tests de `IsEmpty` ya están activos en `StringTest.c`. Corré `make test` y
 
 **P1** — `IsEmpty` podría haberse escrito también como `return s[0] == '\0'`. ¿Son equivalentes? ¿Por qué?
 
-> R:
+> R:Sí son equivalentes, justamente porque C trata el acceso a arreglos (s[0]) y la desreferenciación directa (*s) como la misma operación.
 
 ---
 
@@ -328,14 +328,14 @@ make test
 
 **P2** — ¿Qué hace `s + 1`? ¿Por qué avanza al siguiente carácter y no al siguiente byte?
 
-> R:
+> R:La expresión s + 1 utiliza la aritmética de punteros de C para calcular y devolver la dirección de memoria del siguiente elemento en el arreglo. Dado que s está declarado como un puntero a char (const char *s), el compilador sabe que debe avanzar a la posición del siguiente carácter donde por norma del estándar, un char ocupa exactamente 1 byte.
 
 **P3** — Si llamaras a `GetLength(NULL)`, ¿qué pasaría? ¿Por qué las precondiciones del contrato dicen `s != NULL`?
 
-> R:
+> R:Si llamaras a GetLength(NULL), el programa sufriría una caída abrupta e inmediata durante su ejecución, lanzando un error conocido típicamente como Segmentation Fault.
 
 ```
-GETLENGTH_PASA=
+GETLENGTH_PASA=SI
 ```
 _(escribí SI cuando todos los tests de GetLength pasen)_
 
@@ -367,7 +367,8 @@ El `while` termina cuando alguna de las dos cadenas llega a `'\0'`. Después dev
 
 **P4** — ¿Qué dos casos están mal cubiertos por `return 1`? Describí un ejemplo para cada uno.
 
-> R:
+> R:Caso 1 (La primera cadena es más corta que la segunda): Por ejemplo, si se envía s1 = "pan" y s2 = "pancho". El bucle iterará exitosamente sobre la 'p', la 'a' y la 'n'. Luego se detendrá automáticamente porque s1 llegó a su final (IsEmpty(s1) será verdadero). Al salir, ejecutará el return 1, afirmando que son iguales cuando en realidad s1 es solo un prefijo de s2.
+> Caso 2 (La segunda cadena es más corta que la primera): Por ejemplo, si se envía s1 = "auto" y s2 = "au". El bucle iterará sobre la 'a' y la 'u' sin problemas, y se interrumpirá porque s2 llegó a su límite. Nuevamente, la función devolverá return 1, arrojando un falso positivo.
 
 #### Corrección
 
@@ -384,7 +385,7 @@ make test
 ```
 
 ```
-AREEQUAL_PASA=
+AREEQUAL_PASA=SI
 ```
 _(escribí SI cuando todos los tests de AreEqual pasen)_
 
@@ -414,7 +415,7 @@ int AreDecimalDigits(const char *s) {
 
 **P5** — ¿Por qué la cadena vacía no debería considerarse un conjunto de dígitos decimales? Pensalo desde la especificación matemática.
 
-> R:
+> R:Para que un conjunto sea considerado una colección válida de dígitos decimales, es un requisito estricto que contenga, como mínimo, un elemento.
 
 #### Corrección
 
@@ -425,7 +426,7 @@ make test
 ```
 
 ```
-AREDECIMALDIGITS_PASA=
+AREDECIMALDIGITS_PASA=SI
 ```
 _(escribí SI cuando todos los tests de AreDecimalDigits pasen)_
 
@@ -452,7 +453,7 @@ make test
 ```
 
 ```
-CONTAINS_PASA=
+CONTAINS_PASA=SI
 ```
 _(escribí SI cuando todos los tests de Contains pasen)_
 
@@ -467,7 +468,7 @@ Antes de implementar, discutí con tu equipo:
 
 **P6** — Conclusión de la discusión:
 
-> R:
+> R:Es correcto tenerla en un módulo separado Conversion para mantener una alta cohesión y respetar el Principio de Responsabilidad Única.
 
 ---
 
@@ -494,7 +495,7 @@ int ToInteger(const char *s) {
 
 **P7** — El loop acumula correctamente el valor en `resultado`. ¿Qué está mal en el `return`?
 
-> R:
+> R:La instrucción return está devolviendo únicamente la variable signo, descartando por completo el valor numérico que el bucle acumuló en la variable resultado.
 
 #### Corrección
 
@@ -506,10 +507,10 @@ make test
 
 **P8** — La expresión `*s - '0'` convierte un carácter dígito al entero correspondiente. ¿Por qué funciona? ¿Qué devuelve `'3' - '0'`?
 
-> R:
+> R:Funciona porque en el lenguaje C, los caracteres numéricos del '0' al '9' se almacenan en memoria con valores enteros secuenciales y contiguos. Por lo tanto, la expresión '3' - '0' devuelve el número entero 3 (ya que internamente el programa calcula 51 - 48 = 3).
 
 ```
-TOINTEGER_PASA=
+TOINTEGER_PASA=SI
 ```
 _(escribí SI cuando todos los tests de ToInteger pasen)_
 
@@ -562,7 +563,7 @@ foo
 
 **P9** — ¿Por qué `(void)argc` suprime un warning? ¿Cuándo sería necesario usar `argc`?
 
-> R:
+> R:La expresión (void)argc; suprime el warning porque los compiladores de C te advierten si declaraste un parámetro en una función pero nunca lo utilizaste dentro de ella
 
 ---
 
@@ -589,7 +590,7 @@ Salida esperada:
 ```
 
 ```
-LONGITUDES_PASA=
+LONGITUDES_PASA=SI
 ```
 _(SI o NO)_
 
@@ -616,7 +617,7 @@ make mayorlongitud
 ```
 
 ```
-MAYORLONGITUD_PASA=
+MAYORLONGITUD_PASA=SI
 ```
 _(SI o NO)_
 
@@ -635,7 +636,7 @@ make todosiguales
 ```
 
 ```
-TODOSIGUALES_PASA=
+TODOSIGUALES_PASA=SI
 ```
 _(SI o NO)_
 
@@ -652,7 +653,7 @@ make suma
 ```
 
 ```
-SUMA_PASA=
+SUMA_PASA=SI
 ```
 _(SI o NO)_
 
